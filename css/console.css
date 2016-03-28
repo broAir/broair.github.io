@@ -3,12 +3,30 @@
   font-size: 2em;
 }
 
-span.edit:after {
+.edit-wrap{
+    position:relative;
+    width:800px;
+}
+
+.terminal-helper {
+    position: absolute;
+    z-index: 0;
+    opacity: 0;
+    height:1px;
+    width:100px;
+}
+
+span.terminal-edit{
+    width:900px;
+}
+
+span.terminal-edit:after {
   content: "_";
   opacity: 0;
   animation: cursor 1s infinite;
 }
-span.edit:focus{
+
+span.terminal-edit:focus{
     outline: 0px solid transparent;
 }
 
@@ -28,27 +46,4 @@ span.edit:focus{
   100% {
     opacity: 0;
   }
-}
-/* styling */
-html {
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, #ffffff 0%, #aaaaaa 100%) no-repeat;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-body {
-  text-align: center;
-  display: table;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-#wrap {
-  box-sizing: border-box;
-  display: table-cell;
-  vertical-align: middle;
 }

@@ -4,15 +4,23 @@
 <head>
     <meta charset="utf-8" />
     <title>yoyoyoy</title>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/console.css" />
+
+    <script type="text/javascript" src="deps/js/jquery-2.2.2.min.js"></script>
     <script type="text/javascript" src="js/console.js"></script>
 </head>
 <body>
     yoyoyoy
-    <div id="wrap">
+    <div class="wrap">
         <div class="terminal">
-            <span>root@anykeydev:~$/projects </span>
-            <span contenteditable="true" onkeydown="dowrite(this, event);" class="edit"></span>
+            <div class="edit-wrap">
+                <span class="terminal-helper" contenteditable="true"></span>
+                <span id="edit-text">root@anykeydev:~/projects $</span>
+                <span id="edit-line" class="terminal-edit" contenteditable="true"></span>
+                <div class="terminal-output"></div>
+            </div>
         </div>
     </div>
 </body>
