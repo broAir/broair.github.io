@@ -5,11 +5,15 @@
     <meta charset="utf-8" />
     <title>yoyoyoy</title>
     <link rel="stylesheet" type="text/css" href="css/console.css" />
+    <script type="text/javascript" src="js/console.js"></script>
 </head>
 <body>
     yoyoyoy
     <div id="wrap">
-        <span>root@anykeydev:~$ </span> <input type="text">
+        <div class="terminal">
+            <span>root@anykeydev:~$/projects </span>
+            <span contenteditable="true" onkeydown="dowrite(this, event);" class="edit"></span>
+        </div>
     </div>
 </body>
 </html>

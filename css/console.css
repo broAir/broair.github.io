@@ -1,12 +1,15 @@
-span {
+.terminal {
   font-family: monospace;
   font-size: 2em;
 }
 
-span:after {
+span.edit:after {
   content: "_";
   opacity: 0;
   animation: cursor 1s infinite;
+}
+span.edit:focus{
+    outline: 0px solid transparent;
 }
 
 @keyframes cursor {
