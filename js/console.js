@@ -1,7 +1,28 @@
 $(document).ready(function () {
     var commands = {
-        "help": function (args, $output) {
-            alert(args);
+        "help": {
+            info: "Lists available commands",
+            trigger: function (args, $output) {
+                for (var command in commands) {
+                    $output.append("<b>" + command + "</b> : ");
+                    $output.append(commands[command].info);
+                    $output.append("<br />")
+                }
+            }
+        },
+
+        "cd": {
+            info: "Changes directory ",
+            trigger: function (args, $output) {
+
+            }
+        },
+
+        "list": {
+            info: "See some projects",
+            trigger: function (args, $output) {
+
+            }
         }
     };
 
@@ -52,8 +73,8 @@ $(document).ready(function () {
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
 
             if (commands.hasOwnProperty(commandName)) {
-                commands[commandName](commandArgs, $output);
                 $output.append("<br />");
+                commands[commandName].trigger(commandArgs, $output);
                 createNewInput();
             } else {
                 $output.append("<br /> <span>Command <b>" + commandName + "</b> not found</span><br/>");
