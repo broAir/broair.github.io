@@ -15,13 +15,18 @@
     yoyoyoy
     <div class="wrap">
         <div class="terminal">
+            <div class="terminal-output"></div>
             <div class="edit-wrap">
                 <span class="terminal-helper" contenteditable="true"></span>
                 <span id="edit-text">root@anykeydev:~/projects $</span>
                 <span id="edit-line" class="terminal-edit" contenteditable="true"></span>
-                <div class="terminal-output"></div>
             </div>
         </div>
     </div>
 </body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".terminal-edit").focus();
+    });
+</script>
 </html>

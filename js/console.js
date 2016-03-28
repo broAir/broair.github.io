@@ -3,8 +3,8 @@ $(document).ready(function () {
         "help": function (args) {
             alert(args);
         }
-
     }
+
     var $hiddenInput = $(".terminal-helper");
     var $terminal = $(".terminal");
     var $editLine = $(".terminal-edit");
@@ -14,28 +14,30 @@ $(document).ready(function () {
         $hiddenInput.focus();
     });
 
-    $hiddenInput.keypress(function (e) {
-        $editLine.text($hiddenInput.text());
-    });
 
     $hiddenInput.keydown(function (e) {
         var keycode = e.keyCode || e.which;
 
+        $editLine.text($hiddenInput.text());
         if (keycode == 13) {
             var commandText = $editLine.text();
+
+            if (commandText.trim() == "")
+                return;
+
             var spaceIndex = commandText.indexOf(' ');
             var commandName = spaceIndex == -1 ? commandText : commandText.substring(0, spaceIndex);
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
             if (commands.hasOwnProperty(commandName)) {
                 commands[commandName](commandArgs);
             } else {
-                $output.append("<span>There is no such command <b>" + commandName + "</b></span><br/> <span> Type <b>help</b> for more info </span> <br/>");
+                $output.append("<span>Command <b>" + commandName + "</b> not found</span><br/> <span> Type <b>help</b> to list all available commands </span> <br/>");
             }
 
             $hiddenInput.empty();
 
-            $hiddenInput.children().each(function (e) {
-                $(e).remove();
+            $hiddenInput.children().each(function (child) {
+                $(child).remove();
             });
 
             $editLine.empty();
@@ -43,29 +45,10 @@ $(document).ready(function () {
     });
 
 
-    // from s/o
-    function placeCaretAtEnd(el) {
-        el.focus();
-        if (typeof window.getSelection != "undefined"
-                && typeof document.createRange != "undefined") {
-            var range = document.createRange();
-            range.selectNodeContents(el);
-            range.collapse(false);
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
-        } else if (typeof document.body.createTextRange != "undefined") {
-            var textRange = document.body.createTextRange();
-            textRange.moveToElementText(el);
-            textRange.collapse(false);
-            textRange.select();
-        }
-    }
-
     $editLine.focus(function (e) {
-        //placeCaretAtEnd($editLine.get(0));
         $hiddenInput.focus();
     });
+
     $editLine.mousedown($hiddenInput.focus());
 
 });
