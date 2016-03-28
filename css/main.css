@@ -5,6 +5,8 @@ html {
   background: radial-gradient(circle, #ffffff 0%, #aaaaaa 100%) no-repeat;
   overflow-x: hidden;
   overflow-y: hidden;
+  font-family: monospace;
+  font-size: 1em;
 }
 
 body {

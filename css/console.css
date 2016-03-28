@@ -12,38 +12,38 @@
     position: absolute;
     z-index: 0;
     opacity: 0;
-    height:1px;
-    width:100px;
+    height: 1px;
+    width: 100px;
 }
 
-span.terminal-edit{
-    width:900px;
+span.terminal-input {
+    width: 900px;
 }
 
-span.terminal-edit:after {
-  content: "_";
-  opacity: 0;
-  animation: cursor 1s infinite;
+span.terminal-input:after {
+    content: "_";
+    opacity: 0;
+    animation: cursor 1s infinite;
 }
 
-span.terminal-edit:focus{
+span.terminal-input:focus {
     outline: 0px solid transparent;
 }
 
 @keyframes cursor {
-  0% {
-    opacity: 0;
-  }
-  40% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+    0% {
+        opacity: 0;
+    }
+    40% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }
