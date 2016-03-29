@@ -28,9 +28,15 @@ $(document).ready(function () {
                     shortDesc: "Jquery terminal, maaan!",
                     github: "https://github.com/broAir/ui.terminal",
                     state: "in-progress"
+                },
+
+                "this site": {
+                    url: "http://broair.github.io",
+                    shortDesc: "This website",
+                    github: "https://github.com/broAir/broair.github.io",
+                    state: "in-progress"
                 }
             },
-
             trigger: function (args) {
                 var html = "projects / <br/>";
                 for (var proj in this.projects) {
