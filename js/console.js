@@ -3,7 +3,7 @@ $(document).ready(function () {
         "help": {
             info: "Lists available commands",
             trigger: function (args) {
-                var htmlret = ""
+                var htmlret = "";
                 for (var command in commands) {
                     htmlret += "<b>" + command + "</b>: ";
                     htmlret += commands[command].info;
@@ -46,12 +46,10 @@ $(document).ready(function () {
 
         "goto": {
             info: "Navigate to a different resource. Guess the parameters!",
-            trigger: function (args, $output) {
+            trigger: function (args) {
 
             },
-            dirs: {
-
-            }
+            dirs: {}
         },
         "clear": {
             info: "Clears the output",
@@ -108,15 +106,15 @@ $(document).ready(function () {
         var sel = window.getSelection();
         sel.removeAllRanges();
         sel.addRange(range);
-    }
+    };
 
     var terminalScrollBottom = function () {
         $terminal.scrollTop($terminal[0].scrollHeight);
-    }
+    };
 
     var inputPath = "root@anykeydev:~/projects";
     var inputHtml = '<span id="input-text">' + inputPath + ' $</span>\
-                      <span class="terminal-input">help</span>';
+                     <span class="terminal-input">help</span>';
 
 
     var $hiddenInput = $(".terminal-helper");
@@ -127,7 +125,7 @@ $(document).ready(function () {
     var addToOutput = function (data) {
         $output.append(data);
         terminalScrollBottom();
-    }
+    };
 
     $terminal.blur(function () {
         terminalScrollBottom();
@@ -180,7 +178,7 @@ $(document).ready(function () {
             var spaceIndex = commandText.indexOf(' ');
             var commandName = spaceIndex == -1 ? commandText : commandText.substring(0, spaceIndex);
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
-            
+
             if (commands.hasOwnProperty(commandName)) {
                 addToOutput("<br />");
                 var command = commands[commandName];

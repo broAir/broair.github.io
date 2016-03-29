@@ -14,19 +14,17 @@
     <script type="text/javascript" src="js/console.js"></script>
 </head>
 <body>
-    <div class="wrap">
-        <div class="terminal scrollbar-style">
-            <div class="edit-wrap">
-                <div class="terminal-output">
-                    <span id="input-text">root@anykeydev:~/projects $</span>
-                    <span class="terminal-input"></span>
-                </div>
-                <div class="terminal-helper" contenteditable="true"></div>
+<div class="wrap">
+    <div class="terminal scrollbar-style">
+        <div class="edit-wrap">
+            <div class="terminal-output">
+                <span id="input-text">root@anykeydev:~/projects $</span>
+                <span class="terminal-input"></span>
             </div>
+            <div class="terminal-helper" contenteditable="true"></div>
         </div>
     </div>
-</body>
-
+</div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".terminal-helper").focus();
@@ -36,4 +34,5 @@
         })
     });
 </script>
+</body>
 </html>
