@@ -84,7 +84,7 @@ $(document).ready(function () {
                 return el;
             } else {
                 // do not move the pointer if command not found
-                this.pointer = this.arr.length == 0 ? 0 : this.arr.length - 1;
+                this.pointer = this.arr.length == 0 ? 0 : this.arr.length;
             }
         },
         reset: function () {
@@ -110,7 +110,7 @@ $(document).ready(function () {
         sel.addRange(range);
     }
 
-    var terminalScroolBottom = function () {
+    var terminalScrollBottom = function () {
         $terminal.scrollTop($terminal[0].scrollHeight);
     }
 
@@ -126,11 +126,15 @@ $(document).ready(function () {
 
     var addToOutput = function (data) {
         $output.append(data);
-        terminalScroolBottom();
+        terminalScrollBottom();
     }
 
+    $terminal.blur(function () {
+        terminalScrollBottom();
+    });
+
     var createNewInput = function () {
-        $inputLine.toggleClass("terminal-input");
+        $inputLine.removeClass("terminal-input terminal-input-typing");
 
         addToOutput(inputHtml);
 
@@ -148,7 +152,13 @@ $(document).ready(function () {
     });
 
     $hiddenInput.focus(function (e) {
+        terminalScrollBottom();
         putCaretToTheEnd($hiddenInput.get(0));
+        $inputLine.addClass("terminal-input-typing");
+    });
+
+    $hiddenInput.blur(function (e) {
+        $inputLine.removeClass("terminal-input-typing");
     });
 
     $hiddenInput.on("input", function (e) {
@@ -183,12 +193,14 @@ $(document).ready(function () {
             }
 
             $hiddenInput.empty();
+            $inputLine.empty();
 
             $hiddenInput.children().each(function (child) {
                 $(child).remove();
             });
 
-            $inputLine.empty();
+            $hiddenInput.focus();
+
         }
 
     });

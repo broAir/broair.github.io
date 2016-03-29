@@ -17,11 +17,11 @@
     <div class="wrap">
         <div class="terminal scrollbar-style">
             <div class="edit-wrap">
-                <div class="terminal-helper" contenteditable="true"></div>
                 <div class="terminal-output">
                     <span id="input-text">root@anykeydev:~/projects $</span>
                     <span class="terminal-input"></span>
                 </div>
+                <div class="terminal-helper" contenteditable="true"></div>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".terminal-input").focus();
+        $(".terminal-helper").focus();
 
         $(document).click(function () {
             $(".terminal-helper").focus();
