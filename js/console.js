@@ -2,12 +2,14 @@ $(document).ready(function () {
     var commands = {
         "help": {
             info: "Lists available commands",
-            trigger: function (args, $output) {
+            trigger: function (args) {
+                var htmlret = ""
                 for (var command in commands) {
-                    $output.append("<b>" + command + "</b>: ");
-                    $output.append(commands[command].info);
-                    $output.append("<br />")
+                    htmlret += "<b>" + command + "</b>: ";
+                    htmlret += commands[command].info;
+                    htmlret += "<br />";
                 }
+                return htmlret;
             }
         },
 
@@ -29,7 +31,7 @@ $(document).ready(function () {
                 }
             },
 
-            trigger: function (args, $output) {
+            trigger: function (args) {
                 var html = "projects / <br/>";
                 for (var proj in this.projects) {
                     var project = this.projects[proj];
@@ -38,7 +40,7 @@ $(document).ready(function () {
                     html += "-------- <a href='" + project.url + "' target='_blank' class='link'>link</a> <br/>";
                     html += "-------- <a href='" + project.github + "' target='_blank' class='link'>github</a> <br/>";
                 }
-                $output.append(html);
+                return html;
             }
         },
 
@@ -53,7 +55,7 @@ $(document).ready(function () {
         },
         "clear": {
             info: "Clears the output",
-            trigger: function (args, $output) {
+            trigger: function (args) {
                 $output.empty();
             }
         }
@@ -94,7 +96,7 @@ $(document).ready(function () {
         el.focus();
         var textNode = el.firstChild;
 
-        if (textNode == null)
+        if (textNode == null || textNode.data == null)
             return;
 
         var caret = textNode.data.length || 0;
@@ -108,6 +110,10 @@ $(document).ready(function () {
         sel.addRange(range);
     }
 
+    var terminalScroolBottom = function () {
+        $terminal.scrollTop($terminal[0].scrollHeight);
+    }
+
     var inputPath = "root@anykeydev:~/projects";
     var inputHtml = '<span id="input-text">' + inputPath + ' $</span>\
                       <span class="terminal-input">help</span>';
@@ -118,10 +124,15 @@ $(document).ready(function () {
     var $inputLine = $(".terminal-input");
     var $output = $(".terminal-output");
 
+    var addToOutput = function (data) {
+        $output.append(data);
+        terminalScroolBottom();
+    }
+
     var createNewInput = function () {
         $inputLine.toggleClass("terminal-input");
 
-        $output.append(inputHtml);
+        addToOutput(inputHtml);
 
         $inputLine = $output.find(".terminal-input");
     };
@@ -137,7 +148,7 @@ $(document).ready(function () {
     });
 
     $hiddenInput.focus(function (e) {
-        putCaretToTheEnd($hiddenInput.get(0))
+        putCaretToTheEnd($hiddenInput.get(0));
     });
 
     $hiddenInput.on("input", function (e) {
@@ -161,13 +172,13 @@ $(document).ready(function () {
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
             
             if (commands.hasOwnProperty(commandName)) {
-                $output.append("<br />");
+                addToOutput("<br />");
                 var command = commands[commandName];
-                command.trigger(commandArgs, $output);
+                addToOutput(command.trigger(commandArgs));
                 createNewInput();
             } else {
-                $output.append("<br /> <span>Command <b>" + commandName + "</b> not found</span><br/>");
-                $output.append("<span> Type <b>help</b> to list all available commands </span> <br/>");
+                addToOutput("<br /> <span>Command <b>" + commandName + "</b> not found</span><br/>");
+                addToOutput("<span> Type <b>help</b> to list all available commands </span> <br/>");
                 createNewInput();
             }
 
@@ -178,7 +189,6 @@ $(document).ready(function () {
             });
 
             $inputLine.empty();
-            return;
         }
 
     });
@@ -193,12 +203,15 @@ $(document).ready(function () {
             }
             if (keycode == 40) {
                 cmd = commandsStack.popDown();
+                //in case godown 
+                if (cmd === void 0) {
+                    $hiddenInput.empty();
+                    $inputLine.empty();
+                }
             }
 
             if (cmd) {
                 $inputLine.text(cmd);
-
-                $hiddenInput.empty();
                 $hiddenInput.text(cmd);
 
             }
