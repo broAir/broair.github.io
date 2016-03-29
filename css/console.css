@@ -3,17 +3,6 @@
     font-size: 1.2em;
 }
 
-.terminal a {
-    font-weight:bolder;
-    color:whitesmoke;
-    text-decoration:none;
-}
-
-.terminal a:hover {
-    text-decoration:underline;
-}
-
-
 .edit-wrap {
     position: relative;
     width: 800px;

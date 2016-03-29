@@ -6,7 +6,9 @@
     <title>A. Bobrov /dev</title>
 
     <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/links.css" />
     <link rel="stylesheet" type="text/css" href="css/console.css" />
+
 
     <script type="text/javascript" src="deps/js/jquery-2.2.2.min.js"></script>
     <script type="text/javascript" src="js/console.js"></script>
@@ -15,10 +17,10 @@
     <div class="wrap">
         <div class="terminal">
             <div class="edit-wrap">
-                <span class="terminal-helper" contenteditable="true"></span>
+                <div class="terminal-helper" contenteditable="true"></div>
                 <div class="terminal-output">
                     <span id="input-text">root@anykeydev:~/projects $</span>
-                    <span class="terminal-input" contenteditable="true"></span>
+                    <span class="terminal-input"></span>
                 </div>
             </div>
         </div>
@@ -28,6 +30,9 @@
     $(document).ready(function() {
         $(".terminal-input").focus();
 
+        $(document).click(function () {
+            $(".terminal-helper").focus();
+        })
     });
 </script>
 </html>

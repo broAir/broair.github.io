@@ -35,8 +35,8 @@ $(document).ready(function () {
                     var project = this.projects[proj];
                     html += "---- <b>" + proj + "</b> / <br/>";
                     html += "-------- " + project.shortDesc + " <br/>";
-                    html += "-------- <a href='" + project.url + "' target='_blank'>link</a> <br/>";
-                    html += "-------- <a href='" + project.github + "' target='_blank'>github</a> <br/>";
+                    html += "-------- <a href='" + project.url + "' target='_blank' class='link'>link</a> <br/>";
+                    html += "-------- <a href='" + project.github + "' target='_blank' class='link'>github</a> <br/>";
                 }
                 $output.append(html);
             }
@@ -58,9 +58,59 @@ $(document).ready(function () {
             }
         }
     };
+    var commandsStack = {
+        arr: [],
+        pointer: 0,
+        push: function (cmd) {
+            this.arr.push(cmd);
+            this.reset();
+        },
+        popUp: function () {
+            this.pointer--;
+            if (this.pointer < this.arr.length && this.pointer >= 0) {
+                var el = this.arr[this.pointer];
+                return el;
+            } else {
+                // do not move the pointer if command not found
+                this.pointer = 0;
+            }
+        },
+        popDown: function () {
+            this.pointer++;
+            if (this.pointer < this.arr.length && this.pointer >= 0) {
+                var el = this.arr[this.pointer];
+                return el;
+            } else {
+                // do not move the pointer if command not found
+                this.pointer = this.arr.length == 0 ? 0 : this.arr.length - 1;
+            }
+        },
+        reset: function () {
+            this.pointer = this.arr.length;
+        }
+    };
 
-    var inputHtml = '<span id="input-text">root@anykeydev:~/projects $</span>\
-                      <span class="terminal-input" contenteditable="true">help</span>';
+    var putCaretToTheEnd = function (el) {
+        el.focus();
+        var textNode = el.firstChild;
+
+        if (textNode == null)
+            return;
+
+        var caret = textNode.data.length || 0;
+        var range = document.createRange();
+
+        range.setStart(textNode, caret);
+        range.setEnd(textNode, caret);
+
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+    }
+
+    var inputPath = "root@anykeydev:~/projects";
+    var inputHtml = '<span id="input-text">' + inputPath + ' $</span>\
+                      <span class="terminal-input">help</span>';
 
 
     var $hiddenInput = $(".terminal-helper");
@@ -86,6 +136,10 @@ $(document).ready(function () {
         $hiddenInput.focus();
     });
 
+    //$hiddenInput.focus(function (e) {
+    //    putCaretToTheEnd($hiddenInput.get(0))
+    //});
+
     $hiddenInput.on("input", function (e) {
         $inputLine.text($hiddenInput.text());
     });
@@ -101,10 +155,11 @@ $(document).ready(function () {
             if (commandText.trim() == "")
                 return;
 
+            commandsStack.push(commandText);
             var spaceIndex = commandText.indexOf(' ');
             var commandName = spaceIndex == -1 ? commandText : commandText.substring(0, spaceIndex);
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
-
+            
             if (commands.hasOwnProperty(commandName)) {
                 $output.append("<br />");
                 var command = commands[commandName];
@@ -123,6 +178,38 @@ $(document).ready(function () {
             });
 
             $inputLine.empty();
+            return;
+        }
+
+    });
+
+    $hiddenInput.keydown(function (e) {
+        var keycode = e.keyCode || e.which;
+
+        if (keycode == 38 || keycode == 40) {
+            var cmd;
+            if (keycode == 38) {
+                cmd = commandsStack.popUp();
+            }
+            if (keycode == 40) {
+                cmd = commandsStack.popDown();
+            }
+
+            if (cmd) {
+                $inputLine.text(cmd);
+
+                $hiddenInput.empty();
+                $hiddenInput.text(cmd);
+
+            }
+        }
+    });
+
+    $hiddenInput.keyup(function (e) {
+        var keycode = e.keyCode || e.which;
+
+        if (keycode == 38 || keycode == 40) {
+            putCaretToTheEnd($hiddenInput.get(0));
         }
     });
 
