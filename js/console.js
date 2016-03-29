@@ -136,9 +136,9 @@ $(document).ready(function () {
         $hiddenInput.focus();
     });
 
-    //$hiddenInput.focus(function (e) {
-    //    putCaretToTheEnd($hiddenInput.get(0))
-    //});
+    $hiddenInput.focus(function (e) {
+        putCaretToTheEnd($hiddenInput.get(0))
+    });
 
     $hiddenInput.on("input", function (e) {
         $inputLine.text($hiddenInput.text());
