@@ -11,22 +11,6 @@ $(document).ready(function () {
             }
         },
 
-        "goto": {
-            info: "Navigate to a different resource. Guess the parameters!",
-            trigger: function (args, $output) {
-
-            },
-            dirs: {
-
-            }
-        },
-        "clear":{
-            info: "Clears the output",
-            trigger: function (args, $output) {
-                $output.empty();
-            }
-        },
-
         "list": {
             info: "See some projects",
             projects: {
@@ -55,6 +39,22 @@ $(document).ready(function () {
                     html += "-------- <a href='" + project.github + "' target='_blank'>github</a> <br/>";
                 }
                 $output.append(html);
+            }
+        },
+
+        "goto": {
+            info: "Navigate to a different resource. Guess the parameters!",
+            trigger: function (args, $output) {
+
+            },
+            dirs: {
+
+            }
+        },
+        "clear": {
+            info: "Clears the output",
+            trigger: function (args, $output) {
+                $output.empty();
             }
         }
     };
