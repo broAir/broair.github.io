@@ -4,24 +4,57 @@ $(document).ready(function () {
             info: "Lists available commands",
             trigger: function (args, $output) {
                 for (var command in commands) {
-                    $output.append("<b>" + command + "</b> : ");
+                    $output.append("<b>" + command + "</b>: ");
                     $output.append(commands[command].info);
                     $output.append("<br />")
                 }
             }
         },
 
-        "cd": {
-            info: "Changes directory ",
+        "goto": {
+            info: "Navigate to a different resource. Guess the parameters!",
             trigger: function (args, $output) {
 
+            },
+            dirs: {
+
+            }
+        },
+        "clear":{
+            info: "Clears the output",
+            trigger: function (args, $output) {
+                $output.empty();
             }
         },
 
         "list": {
             info: "See some projects",
-            trigger: function (args, $output) {
+            projects: {
+                "cloudSyncUtil": {
+                    url: "",
+                    shortDesc: "Utility for syncronizing stuff from cloud and back",
+                    github: "https://github.com/broAir/CloudSyncUtil",
+                    state: "in-progress"
+                },
 
+                "ui.terminal": {
+                    url: "",
+                    shortDesc: "Jquery terminal, maaan!",
+                    github: "https://github.com/broAir/ui.terminal",
+                    state: "in-progress"
+                }
+            },
+
+            trigger: function (args, $output) {
+                var html = "projects / <br/>";
+                for (var proj in this.projects) {
+                    var project = this.projects[proj];
+                    html += "---- <b>" + proj + "</b> / <br/>";
+                    html += "-------- " + project.shortDesc + " <br/>";
+                    html += "-------- <a href='" + project.url + "' target='_blank'>link</a> <br/>";
+                    html += "-------- <a href='" + project.github + "' target='_blank'>github</a> <br/>";
+                }
+                $output.append(html);
             }
         }
     };
@@ -74,7 +107,8 @@ $(document).ready(function () {
 
             if (commands.hasOwnProperty(commandName)) {
                 $output.append("<br />");
-                commands[commandName].trigger(commandArgs, $output);
+                var command = commands[commandName];
+                command.trigger(commandArgs, $output);
                 createNewInput();
             } else {
                 $output.append("<br /> <span>Command <b>" + commandName + "</b> not found</span><br/>");

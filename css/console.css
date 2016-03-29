@@ -1,11 +1,22 @@
 .terminal {
-  font-family: monospace;
-  font-size: 1em;
+    font-family: monospace;
+    font-size: 1.2em;
 }
 
-.edit-wrap{
-    position:relative;
-    width:800px;
+.terminal a {
+    font-weight:bolder;
+    color:whitesmoke;
+    text-decoration:none;
+}
+
+.terminal a:hover {
+    text-decoration:underline;
+}
+
+
+.edit-wrap {
+    position: relative;
+    width: 800px;
 }
 
 .terminal-helper {
