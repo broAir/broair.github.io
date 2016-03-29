@@ -4,7 +4,7 @@ a {
 }
 
 a:link, a:visited { color: #265C83; }
-a:hover   { color: #7FDBFF; }
+a:hover   { color: #1DA4DA; }
 a:active {
   transition: color .3s;
   color: #007BE6;
