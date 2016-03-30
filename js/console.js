@@ -239,7 +239,9 @@ $(document).ready(function () {
 
         // The ENTER key
         if (keycode == 13) {
-            $inputDisplayText.text($hiddenInput.text());
+
+            // To make sure the input is not fulfilled with empty div
+            e.preventDefault();
 
             var commandText = $inputDisplayText.text();
 
@@ -247,6 +249,7 @@ $(document).ready(function () {
             if (commandText.trim() == "")
                 return;
 
+            $inputDisplayText.text($hiddenInput.text());
             // Pushing command to the stack for preserving history
             commandsStack.push(commandText);
             // Getting command name and arguments
@@ -303,7 +306,6 @@ $(document).ready(function () {
             if (cmd) {
                 $inputDisplayText.text(cmd);
                 $hiddenInput.text(cmd);
-
             }
         }
     });
