@@ -1,4 +1,20 @@
 $(document).ready(function () {
+    // username/folder
+    var inputPath = "root@anykeydev:~/projects";
+    // Input line template
+    var inputHtml = '<div class="terminal-input-wrap">\
+                         <span id="input-text">' + inputPath + ' $</span>\
+                         <span class="terminal-input">help</span>\
+                     </div>';
+
+    // most used selectors
+    var $terminal = $(".terminal");
+    var $output = $(".terminal-output");
+    var $inputDisplayText = $(".terminal-input");
+    var $hiddenInput = $(".terminal-helper");
+    // the whole input line
+    var $inputLine = $(".terminal-input-wrap");
+
     var printSomeLinks = function (title, links) {
         var html = title + " / <br/>";
         for (var lnk in links) {
@@ -6,8 +22,10 @@ $(document).ready(function () {
             html += "---- <a href='" + url + "' class='link'>" + lnk + "</a> <br/>";
         }
         return html;
-    }
+    };
 
+    // Associative list of commands.
+    // TODO: use array instead. create a Command class for convenience
     var commands = {
         "help": {
             info: "Lists available commands",
@@ -71,7 +89,7 @@ $(document).ready(function () {
             }
         },
 
-        "lifestyle":{
+        "lifestyle": {
             info: "Irrelevant resources",
             trigger: function (args) {
                 return printSomeLinks("lifestyle", this.links);
@@ -89,20 +107,28 @@ $(document).ready(function () {
             }
         }
     };
+
+    // Simple implementation of commands stack.
+    // To make sure that we can navigate trough the commands history
+    // by pressing up/down arrow keys.
     var commandsStack = {
         arr: [],
+        // current position in the arr
         pointer: 0,
+        // add command to stack and reset pointer
         push: function (cmd) {
             this.arr.push(cmd);
             this.reset();
         },
+
+        // Get previous command.
         popUp: function () {
             this.pointer--;
             if (this.pointer < this.arr.length && this.pointer >= 0) {
                 var el = this.arr[this.pointer];
                 return el;
             } else {
-                // do not move the pointer if command not found
+                // reset the pointer if command not found
                 this.pointer = 0;
             }
         },
@@ -112,7 +138,7 @@ $(document).ready(function () {
                 var el = this.arr[this.pointer];
                 return el;
             } else {
-                // do not move the pointer if command not found
+                // reset the pointer if command not found
                 this.pointer = this.arr.length == 0 ? 0 : this.arr.length;
             }
         },
@@ -121,6 +147,7 @@ $(document).ready(function () {
         }
     };
 
+    // We need to make sure that caret remains in the end to avoid input issues.
     var putCaretToTheEnd = function (el) {
         el.focus();
         var textNode = el.firstChild;
@@ -143,93 +170,104 @@ $(document).ready(function () {
         $terminal.scrollTop($terminal[0].scrollHeight);
     };
 
-    var inputPath = "root@anykeydev:~/projects";
-    var inputHtml = '<span id="input-text">' + inputPath + ' $</span>\
-                     <span class="terminal-input">help</span>';
+    // Input is re-created each time we submit the data.
+    var createNewInput = function () {
+        $inputDisplayText.removeClass("terminal-input terminal-input-typing");
+        $inputLine.removeClass("terminal-input-wrap");
+        addToOutput(inputHtml);
+        // fix the reference
+        $inputDisplayText = $output.find(".terminal-input");
+        $inputLine = $output.find(".terminal-input-wrap")
+    };
 
-
-    var $hiddenInput = $(".terminal-helper");
-    var $terminal = $(".terminal");
-    var $inputLine = $(".terminal-input");
-    var $output = $(".terminal-output");
-
+    // Function that we use to output data.
     var addToOutput = function (data) {
         $output.append(data);
+
+        // Scroll down after we are done
         terminalScrollBottom();
     };
 
-    $terminal.blur(function () {
-        terminalScrollBottom();
+    // This handle is to make sure that clicks on the empty space below the input
+    // are redirected to the input itself
+    $terminal.click(function (e) {
+        // if we clicked on the child element
+        if (this != e.target)
+            return;
+
+        $hiddenInput.focus();
+
     });
 
-    var createNewInput = function () {
-        $inputLine.removeClass("terminal-input terminal-input-typing");
-
-        addToOutput(inputHtml);
-
-        $inputLine = $output.find(".terminal-input");
-    };
-
-    $terminal.mouseup(function () {
+    $output.on("click", ".terminal-input-wrap", function(e) {
+        // To make sure that if we click on an empty space to the right
+        // the focus is set on the input itself
         $hiddenInput.focus();
     });
 
-    $inputLine.mousedown($hiddenInput.focus());
-
-    $inputLine.focus(function (e) {
+    // Redirect focus to the hidden input
+    $inputDisplayText.focus(function (e) {
         $hiddenInput.focus();
     });
 
     $hiddenInput.focus(function (e) {
+        // To make sure that we see the input line
         terminalScrollBottom();
         putCaretToTheEnd($hiddenInput.get(0));
-        $inputLine.addClass("terminal-input-typing");
+        $inputDisplayText.addClass("terminal-input-typing");
     });
 
     $hiddenInput.blur(function (e) {
-        $inputLine.removeClass("terminal-input-typing");
+        // Removing the fake caret from input to indicate that we are not focused
+        $inputDisplayText.removeClass("terminal-input-typing");
     });
 
+    // We should copy the input value to the display text to inform user that his typings are reflected:)
     $hiddenInput.on("input", function (e) {
-        $inputLine.text($hiddenInput.text());
+        $inputDisplayText.text($hiddenInput.text());
     });
 
     $hiddenInput.keypress(function (e) {
         var keycode = e.keyCode || e.which;
 
+        // The ENTER key
         if (keycode == 13) {
-            $inputLine.text($hiddenInput.text());
+            $inputDisplayText.text($hiddenInput.text());
 
-            var commandText = $inputLine.text();
+            var commandText = $inputDisplayText.text();
 
+            // In no text
             if (commandText.trim() == "")
                 return;
 
+            // Pushing command to the stack for preserving history
             commandsStack.push(commandText);
+            // Getting command name and arguments
             var spaceIndex = commandText.indexOf(' ');
             var commandName = spaceIndex == -1 ? commandText : commandText.substring(0, spaceIndex);
             var commandArgs = spaceIndex == -1 ? null : commandText.substr(spaceIndex + 1);
 
+            // If command is in the list
             if (commands.hasOwnProperty(commandName)) {
-                addToOutput("<br />");
                 var command = commands[commandName];
                 addToOutput(command.trigger(commandArgs));
                 createNewInput();
             } else {
-                addToOutput("<br /> <span>Command <b>" + commandName + "</b> not found</span><br/>");
+                addToOutput("<span>Command <b>" + commandName + "</b> not found</span><br/>");
                 addToOutput("<span> Type <b>help</b> to list all available commands </span> <br/>");
                 createNewInput();
             }
 
+            // Clear all the inputs
             $hiddenInput.empty();
-            $inputLine.empty();
-
+            $inputDisplayText.empty();
+            // Just in case browser has added some empty html when we cleared texts
             $hiddenInput.children().each(function (child) {
                 $(child).remove();
             });
 
+            // Focusing back to the input
             $hiddenInput.focus();
-
         }
 
     });
@@ -237,22 +275,26 @@ $(document).ready(function () {
     $hiddenInput.keydown(function (e) {
         var keycode = e.keyCode || e.which;
 
+        // Up/Down Arrow keys
         if (keycode == 38 || keycode == 40) {
             var cmd;
+            // The Up arrow key
             if (keycode == 38) {
                 cmd = commandsStack.popUp();
             }
+            // The Down arrow key
             if (keycode == 40) {
                 cmd = commandsStack.popDown();
-                //in case godown 
+                //in case no commands left below this one - blank the input
                 if (cmd === void 0) {
                     $hiddenInput.empty();
-                    $inputLine.empty();
+                    $inputDisplayText.empty();
                 }
             }
 
+            // If command has been found, set the texts
             if (cmd) {
-                $inputLine.text(cmd);
+                $inputDisplayText.text(cmd);
                 $hiddenInput.text(cmd);
 
             }
@@ -261,7 +303,8 @@ $(document).ready(function () {
 
     $hiddenInput.keyup(function (e) {
         var keycode = e.keyCode || e.which;
-
+        // The KEYDOWN event is fired before input is fulfilled.
+        // That is why we should put caret to its initial place.
         if (keycode == 38 || keycode == 40) {
             putCaretToTheEnd($hiddenInput.get(0));
         }

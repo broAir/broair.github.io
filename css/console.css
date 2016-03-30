@@ -7,9 +7,6 @@
     overflow-y: auto;
     font-family: monospace;
     font-size: 1.2em;
-}
-
-.edit-wrap {
     position: relative;
     width: 800px;
 }
