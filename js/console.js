@@ -1,4 +1,13 @@
 $(document).ready(function () {
+    var printSomeLinks = function (title, links) {
+        var html = title + " / <br/>";
+        for (var lnk in links) {
+            var url = links[lnk];
+            html += "---- <a href='" + url + "' class='link'>" + lnk + "</a> <br/>";
+        }
+        return html;
+    }
+
     var commands = {
         "help": {
             info: "Lists available commands",
@@ -45,18 +54,34 @@ $(document).ready(function () {
                     html += "-------- " + project.shortDesc + " <br/>";
                     html += "-------- <a href='" + project.url + "' target='_blank' class='link'>link</a> <br/>";
                     html += "-------- <a href='" + project.github + "' target='_blank' class='link'>github</a> <br/>";
+                    html += "-------- state: <i>" + project.state + "</i> <br/>";
                 }
                 return html;
             }
         },
 
-        "goto": {
-            info: "Navigate to a different resource. Guess the parameters!",
+        "contact": {
+            info: "List contacts",
             trigger: function (args) {
-
+                return printSomeLinks("contact", this.links);
             },
-            dirs: {}
+            links: {
+                "email": "mailto:andrey.bobrov.dev@gmail.com?subject=Hey wassup",
+                "linkedIn": "https://www.linkedin.com/in/andreybobrov"
+            }
         },
+
+        "lifestyle":{
+            info: "Irrelevant resources",
+            trigger: function (args) {
+                return printSomeLinks("lifestyle", this.links);
+            },
+            links: {
+                "instagram": "https://www.instagram.com/xprayforthedeadx/",
+                "fb": "https://www.facebook.com/profile.php?id=100005776141390"
+            }
+        },
+
         "clear": {
             info: "Clears the output",
             trigger: function (args) {
