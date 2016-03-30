@@ -117,7 +117,14 @@ $(document).ready(function () {
         pointer: 0,
         // add command to stack and reset pointer
         push: function (cmd) {
+            // If the command was in the array we should remove it and push back to the stack
+            var index = this.arr.indexOf(cmd);
+            if (index >= 0) {
+                this.arr.splice(index, 1);
+            }
+
             this.arr.push(cmd);
+
             this.reset();
         },
 
