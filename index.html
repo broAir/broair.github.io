@@ -5,29 +5,40 @@
     <meta charset="utf-8" />
     <title>A. Bobrov /dev</title>
 
+    <link rel="stylesheet" type="text/css" href="css/console.css" />
+    <link rel="stylesheet" type="text/css" href="deps/jqueryui/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/links.css" />
-    <link rel="stylesheet" type="text/css" href="css/console.css" />
 
 
-    <script type="text/javascript" src="deps/js/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="deps/jquery/jquery-2.2.2.min.js"></script>
+    <script type="text/javascript" src="deps/jqueryui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/console.js"></script>
 </head>
 <body>
+<img src="img/background.jpg" class="background-img">
+
 <div class="wrap">
-    <div class="terminal scrollbar-style">
-        <div class="terminal-output">
-            <div class="terminal-input-wrap">
-                <span id="input-text">root@anykeydev:~/projects $</span>
-                <span class="terminal-input"></span>
+    <div class="terminal-container transparent">
+        <div class="terminal-header"></div>
+        <div class="terminal terminal-scrollable sharp-top-border">
+            <div class="terminal-output">
+                <div class="terminal-input-wrap">
+                    <span id="input-text">root@anykeydev:~/projects $</span>
+                    <span class="terminal-input"></span>
+                </div>
             </div>
+            <div class="terminal-helper" contenteditable="true"></div>
         </div>
-        <div class="terminal-helper" contenteditable="true"></div>
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
         $(".terminal-helper").focus();
+
+        $( ".terminal-container" ).draggable({
+            handle: ".terminal-header"
+        });
 
     });
 </script>
