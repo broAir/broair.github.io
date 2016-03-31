@@ -286,8 +286,8 @@ $(document).ready(function () {
     $hiddenInput.keydown(function (e) {
         var keycode = e.keyCode || e.which;
 
-
-        if(keycode==37||keycode==39) {
+        // Right/Left arrow keys. To make sure we dont move the caret
+        if(keycode == 37 || keycode == 39) {
             e.preventDefault();
             return false;
         }
