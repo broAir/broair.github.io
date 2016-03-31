@@ -17,9 +17,9 @@ $(document).ready(function () {
 
     var printSomeLinks = function (title, links) {
         var html = title + " / <br/>";
-        for (var lnk in links) {
-            var url = links[lnk];
-            html += "---- <a href='" + url + "' class='link'>" + lnk + "</a> <br/>";
+        for (var index in links) {
+            var link = links[index];
+            html += "---- <a href='" + link.url + "' class='link'" + (link.sameTab ? "" : "target='_blank'") + ">" + index + "</a> <br/>";
         }
         return html;
     };
@@ -84,8 +84,9 @@ $(document).ready(function () {
                 return printSomeLinks("contact", this.links);
             },
             links: {
-                "email": "mailto:andrey.bobrov.dev@gmail.com?subject=Hey wassup",
-                "linkedIn": "https://www.linkedin.com/in/andreybobrov"
+                "email: andrey.bobrov.dev@gmail.com": { url: "mailto:andrey.bobrov.dev@gmail.com?subject=Hey wassup", sameTab: true },
+                "linkedIn": { url: "https://www.linkedin.com/in/andreybobrov" },
+                "skype: andrey.bobrov.dev": { url: "skype:andrey.bobrov.dev?chat", sameTab: true }
             }
         },
 
@@ -95,8 +96,8 @@ $(document).ready(function () {
                 return printSomeLinks("lifestyle", this.links);
             },
             links: {
-                "instagram": "https://www.instagram.com/xprayforthedeadx/",
-                "fb": "https://www.facebook.com/profile.php?id=100005776141390"
+                "instagram": { url: "https://www.instagram.com/xprayforthedeadx/" },
+                "fb": { url: "https://www.facebook.com/profile.php?id=100005776141390" }
             }
         },
 
