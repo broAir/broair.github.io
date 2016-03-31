@@ -286,6 +286,12 @@ $(document).ready(function () {
     $hiddenInput.keydown(function (e) {
         var keycode = e.keyCode || e.which;
 
+
+        if(keycode==37||keycode==39) {
+            e.preventDefault();
+            return false;
+        }
+
         // Up/Down Arrow keys
         if (keycode == 38 || keycode == 40) {
             var cmd;
