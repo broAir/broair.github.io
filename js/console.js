@@ -24,19 +24,68 @@ $(document).ready(function () {
         return html;
     };
 
+    // @name: command name 
+    // @desc: command help text
+    // @trigger: function to be executed when command triggers
+    // @props: additional properties that are to be added to the command object
+    function Command(name, desc, trigger, props) {
+        this.name = name;
+        this.info = desc;
+        this.trigger = trigger;
+
+        for (var prop in props) {
+            this[prop] = props[prop];
+        }
+    }
+
+    var helpCommand = new Command(
+        "help",
+        "Lists available commands",
+        function (args) {
+            var html = "";
+            for (var command in commands) {
+                html += "<b>" + command + "</b>: ";
+                html += commands[command].info;
+                html += "<br />";
+            }
+            return html;
+        });
+
+    var listCommand = new Command(
+        "list",
+        "See some projects",
+        function (args) {
+            var html = "projects / <br/>";
+            for (var proj in this.projects) {
+                var project = this.projects[proj];
+                html += "---- <b>" + proj + "</b> / <br/>";
+                html += "-------- " + project.shortDesc + " <br/>";
+                html += "-------- <a href='" + project.url + "' target='_blank' class='link'>link</a> <br/>";
+                html += "-------- <a href='" + project.github + "' target='_blank' class='link'>github</a> <br/>";
+                html += "-------- state: <i>" + project.state + "</i> <br/>";
+            }
+            return html;
+        });
+
+    var clearCommand = new Command(
+        "clear",
+        "Clears the output",
+        function (args) {
+            $output.empty();
+        });
     // Associative list of commands.
     // TODO: use array instead. create a Command class for convenience
     var commands = {
         "help": {
             info: "Lists available commands",
             trigger: function (args) {
-                var htmlret = "";
+                var html = "";
                 for (var command in commands) {
-                    htmlret += "<b>" + command + "</b>: ";
-                    htmlret += commands[command].info;
-                    htmlret += "<br />";
+                    html += "<b>" + command + "</b>: ";
+                    html += commands[command].info;
+                    html += "<br />";
                 }
-                return htmlret;
+                return html;
             }
         },
 
