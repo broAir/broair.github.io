@@ -1,0 +1,27 @@
+{
+  "name": "broair.github.io",
+  "homepage": "http://broair.github.io",
+  "authors": [
+    "broair <andreybobrovdev@gmail.com>"
+  ],
+  "description": "portfolio website",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "andrey",
+    "bobrov",
+    "front-end"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ui-terminal": "*"
+  }
+}
