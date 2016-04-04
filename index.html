@@ -26,16 +26,18 @@
 <img src="img/background.jpg" class="background-img">
 
 <div class="wrap">
-    <div class="terminal-container transparent">
-        <div class="terminal-header"></div>
-        <div class="terminal terminal-scrollable sharp-top-border">
-            <div class="terminal-output">
-                <div class="terminal-input-wrap">
-                    <span id="input-text">root@anykeydev:~/projects $</span>
-                    <span class="terminal-input"></span>
+    <div class="terminal-embed">
+        <div class="terminal-container transparent">
+            <div class="terminal-header"></div>
+            <div class="terminal terminal-scrollable sharp-top-border">
+                <div class="terminal-output">
+                    <div class="terminal-input-wrap">
+                        <span id="input-text">root@anykeydev:~/projects $</span>
+                        <span class="terminal-input"></span>
+                    </div>
                 </div>
+                <div class="terminal-helper" contenteditable="true"></div>
             </div>
-            <div class="terminal-helper" contenteditable="true"></div>
         </div>
     </div>
 </div>
@@ -43,8 +45,9 @@
     $(document).ready(function() {
         $(".terminal-helper").focus();
 
-        $( ".terminal-container" ).draggable({
-            handle: ".terminal-header"
+        $(".terminal-container").draggable({
+            handle: ".terminal-header",
+            containment: ".wrap"
         });
 
     });
