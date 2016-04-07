@@ -102,7 +102,7 @@ $(document).ready(function () {
                 "ui.terminal": {
                     url: "",
                     shortDesc: "Jquery terminal, maaan!",
-                    github: "https://github.com/broAir/ui.terminal",
+                    github: "https://github.com/broAir/ui-terminal",
                     state: "in-progress"
                 },
 
