@@ -31,11 +31,10 @@
 
     </div>
 </div>
+<script type="text/javascript" src="js/customCommands.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-
-
-        $(".terminal-embed").terminal({draggable: true, draggableContainer: ".wrap", commands: commands});
+        $(".terminal-embed").terminal({draggable: true, draggableContainer: ".wrap", commands: customCommands});
 
         $(".terminal-helper").focus();
     });
