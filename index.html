@@ -6,13 +6,14 @@
     <title>Andrey Bobrov /dev</title>
     
 
-    <meta name="keywords" content="Andrey, Bobrov, Andrew Bobrov, Bobrow, Sitecore developer, .Net, javascript, js, nodejs, portfolio">
-    <meta name="description" content="Andrey Bobrov Sitecore/.Net/Front-end developer portfolio and contacts. And it is just beautiful">
+    <meta name="keywords" content="Andrey, Bobrov, andrey bobrov, bobrov, Sitecore developer, portfolio">
+    <meta name="description" content="Andrey Bobrov Sitecore/.Net/Front-end developer portfolio and contacts.
+                                      And it is just beautiful.
+                                      Sitecore .Net ASP.Net Javascript Nodejs Front-end">
     <meta name="abstract" content="Andrey Bobrov developer portfolio and contacts">
     <meta name="robots" content="index, follow">
 
-
-    <link rel="stylesheet" type="text/css" href="css/console.css" />
+    <link rel="stylesheet" type="text/css" href="bower_components/ui-terminal/src/ui.terminal.css" />
     <link rel="stylesheet" type="text/css" href="deps/jqueryui/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" href="css/main.css" />
     <link rel="stylesheet" type="text/css" href="css/links.css" />
@@ -20,36 +21,23 @@
 
     <script type="text/javascript" src="deps/jquery/jquery-2.2.2.min.js"></script>
     <script type="text/javascript" src="deps/jqueryui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/console.js"></script>
+    <script type="text/javascript" src="bower_components/ui-terminal/src/ui.terminal.js"></script>
 </head>
 <body>
 <img src="img/background.jpg" class="background-img">
 
 <div class="wrap">
-    <div class="terminal-embed">
-        <div class="terminal-container transparent">
-            <div class="terminal-header"></div>
-            <div class="terminal terminal-scrollable sharp-top-border">
-                <div class="terminal-output">
-                    <div class="terminal-input-wrap">
-                        <span id="input-text">root@anykeydev:~/projects $</span>
-                        <span class="terminal-input"></span>
-                    </div>
-                </div>
-                <div class="terminal-helper" contenteditable="true"></div>
-            </div>
-        </div>
+    <div class="terminal-embed transparent">
+
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function() {
+
+
+        $(".terminal-embed").terminal({draggable: true, draggableContainer: ".wrap", commands: commands});
+
         $(".terminal-helper").focus();
-
-        $(".terminal-container").draggable({
-            handle: ".terminal-header",
-            containment: ".wrap"
-        });
-
     });
 </script>
 </body>
