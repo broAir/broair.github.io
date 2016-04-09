@@ -19,44 +19,46 @@ body {
 }
 
 img.background-img {
-  /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 1024px;
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
 
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
 
-  /* Set up positioning */
-  position: fixed;
-  top: 0;
-  left: 0;
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 @media screen and (max-width: 1024px) { /* Specific to this particular image */
-  img.background-img {
-    left: 50%;
-    margin-left: -512px;   /* 50% */
-  }
+    img.background-img {
+        left: 50%;
+        margin-left: -512px;   /* 50% */
+    }
 }
 
 .wrap {
-  box-sizing: border-box;
-  display: block;
-  vertical-align: middle;
-  width: 120%;
-  height: 120%;
-  margin:0 auto;
+    box-sizing: border-box;
+    display: block;
+    vertical-align: middle;
+    width: 120%;
+    height: 120%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 0 auto;
 }
 
 .transparent {
-  opacity: 0.8;
-  filter: alpha(opacity=80);
+    opacity: 0.8;
+    filter: alpha(opacity=80);
 }
 
 .sharp-top-border{
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 
 }
 .terminal-embed{
